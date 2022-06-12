@@ -1,0 +1,13 @@
+{
+  "name": "farms",
+  "version": "1.0.0",
+  "description": "Farm management web app as a way to learn web app development.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Adam Ballinger",
+  "license": "MIT"
+}
