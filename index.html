@@ -47,8 +47,9 @@
         }
 
         function getExpenses() {
+            console.log('Getting Expenses.')
             $.get('http://localhost:3000/expenses', (data) => {
-                data.forEach(addExpenses);
+                data.forEach(addExpense);
             })
         }
 
