@@ -8,18 +8,18 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-var messages = [
-    {name: 'Chicks', message: 41.17},
-    {name: 'Feed', message: 5.42}
+var expenses = [
+    {expense: 'Chicks', amount: 41.17},
+    {expense: 'Feed', amount: 5.42}
 ]
 
-app.get('/messages', (req, res) => {
-    res.send(messages)
+app.get('/expenses', (req, res) => {
+    res.send(expenses)
 })
 
-app.post('/messages', (req, res) => {
-    messages.push(req.body)
-    io.emit('message', req.body)
+app.post('/expenses', (req, res) => {
+    expenses.push(req.body)
+    io.emit('expense', req.body)
     res.sendStatus(200)
 })
 

@@ -23,7 +23,7 @@
                 <button id="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-        <div id="messages">
+        <div id="expenses">
 
         </div>
     </div>
@@ -33,27 +33,27 @@
 
         $(() => {
             $('#submit').click(() => {
-                var message = {name: $("#expense").val(), message: $("#amount").val()}
-                postMessage(message)
+                var expense = {expense: $("#expense").val(), amount: $("#amount").val()}
+                postExpense(expense)
             })
-            getMessages()
+            getExpenses()
         })
 
-        socket.on('message', addMessage)
+        socket.on('expense', addExpense)
 
-        function addMessage(message){
-            $('#messages').append(`<h4> ${message.name} </h4>`)
-            $('#messages').append(`<p> ${message.message} </p>`)
+        function addExpense(expense){
+            $('#expenses').append(`<h4> ${expense.expense} </h4>`)
+            $('#expenses').append(`<p> ${expense.amount} </p>`)
         }
 
-        function getMessages() {
-            $.get('http://localhost:3000/messages', (data) => {
-                data.forEach(addMessage);
+        function getExpenses() {
+            $.get('http://localhost:3000/expenses', (data) => {
+                data.forEach(addExpenses);
             })
         }
 
-        function postMessage(message) {
-            $.post('http://localhost:3000/messages', message)
+        function postExpense(expense) {
+            $.post('http://localhost:3000/expenses', expense)
         }
     </script>
    
