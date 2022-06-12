@@ -1,5 +1,8 @@
 # farms
 
-[![Generic badge](https://img.shields.io/badge/<SUBJECT>-<STATUS>-<COLOR>.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/license-MIT-<COLOR>.svg)](https://shields.io/)
 
-Farm management web app as a way to learn web app development.
+Farm management web app for learning web app development.
+
+## Author
+Adam Ballinger
