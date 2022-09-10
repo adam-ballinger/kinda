@@ -9,27 +9,28 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-var dbUrl = 'mongodb+srv://ballinger5421:5uwqs5YykHLLa3Tj@cluster0.2zzud.mongodb.net/?retryWrites=true&w=majority'
+var dbUrl = 'mongodb+srv://ballinger5421:hBMNvSlhvUdURw50@kinda.kdaxo7g.mongodb.net/test'
 
-var Expense = mongoose.model('Expense', {
-    expense: String,
-    amount: Number
+var Transaction = mongoose.model('Transaction', {
+    debitAccount: String,
+    creditAccount: String,
+    amount: Number,
+    description: String,
+    reference: String
 })
 
-app.get('/expenses', (req, res) => {
-    Expense.find({}, (err, expenses) => {
-        res.send(expenses)
+app.get('/transactions', (req, res) => {
+    Transaction.find({}, (err, transactions) => {
+        res.send(transactions)
     })
-
 })
 
-app.post('/expenses', (req, res) => {
-    var expense = new Expense(req.body)
-
-    expense.save((err) => {
+app.post('/transactions', (req, res) => {
+    var transaction = new Transaction(req.body)
+    transaction.save((err) => {
         if(err)
             sendStatus(500)
-        io.emit('expense', req.body)
+        io.emit('transaction', req.body)
         res.sendStatus(200)
     })
 })
