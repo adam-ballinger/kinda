@@ -3,14 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Financial Home Page | kinda</title>
+    <title>Expenses | kinda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <div class="container py-4">
-        <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container py-4">
+          <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="index.html">kinda</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,15 +38,52 @@
               </div>
             </div>
           </nav>
-          <div class="container py-4">
-            <header class="pb-3 mb-4 border-bottom">
-                <h1>Home</h1>
-            </header>
-            <p>Internal web app for finances. More to come here.</p>
+            <div class="p5 mb-4 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">Expense Entry</h1>
+                    <input id="description" class="form-control" placeholder="Description">
+                    <br>
+                    <input id="amount" class="form-control" placeholder="Amount">
+                    <br>
+                    <button id="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div class="p5 mb-4 rounded-3">
+                <div id="expenses" class="container-fluid py-5">
+    
+                </div>
+            </div>
+    
+        </div>
         </div>
 
     <script>
+        var socket = io()
 
+        $(() => {
+            $('#submit').click(() => {
+                var expense = {description: $("#description").val(), amount: $("#amount").val()}
+                postExpense(expense)
+            })
+            getExpenses()
+        })
+
+        socket.on('expense', addExpense)
+
+        function addExpense(expense) {
+            $('#expenses').append(`<h4>${expense.description}</h4>`)
+            $('#expenses').append(`<p>$${expense.amount}</p>`)
+        }
+
+        function getExpenses() {
+            $.get('http://localhost:3000/expenses', (data) => {
+                data.forEach(addExpense);
+            })
+        }
+
+        function postExpense(expense) {
+            $.post('http://localhost:3000/expenses', expense)
+        }
     </script>
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

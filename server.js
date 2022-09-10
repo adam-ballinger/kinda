@@ -26,6 +26,7 @@ app.get('/transactions', (req, res) => {
 })
 
 app.post('/transactions', (req, res) => {
+    console.log("post transaction")
     var transaction = new Transaction(req.body)
     transaction.save((err) => {
         if(err)

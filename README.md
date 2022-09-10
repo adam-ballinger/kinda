@@ -1,6 +1,5 @@
-# Farms
-
-Farm management web app for learning web app development.
+# kinda
+All Kinds Montessori Internal Website
 
 ## Author
 Adam Ballinger
