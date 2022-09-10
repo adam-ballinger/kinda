@@ -26,12 +26,12 @@ app.get('/transactions', (req, res) => {
 })
 
 app.post('/transactions', (req, res) => {
-    console.log("post transaction")
     var transaction = new Transaction(req.body)
     transaction.save((err) => {
-        if(err)
+        if(err) {
             sendStatus(500)
-        io.emit('transaction', req.body)
+        }
+        io.emit('transactions', req.body)
         res.sendStatus(200)
     })
 })

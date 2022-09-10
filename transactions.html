@@ -68,7 +68,6 @@
 
         $(() => {
             $('#submit').click(() => {
-              $('#submit').append('Click')
                 var transaction = {
                   description: $("#description").val(),
                   amount: $("#amount").val(),
@@ -83,14 +82,15 @@
 
         socket.on('transactions', addTransactions)
 
-        function addTransaction(transaction) {
-            $('#transactions').append(`<h4>${transaction.description}</h4>`)
-            $('#transactions').append(`<p>$${transaction.amount}</p>`)
+        function addTransactions(transaction) {
+          $('#transactions').prepend(`<p>$${transaction.amount}</p>`)  
+          $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
+            
         }
 
         function getTransactions() {
             $.get('http://localhost:3000/transactions', (data) => {
-                data.forEach(addTransaction);
+                data.forEach(addTransactions);
             })
         }
 
