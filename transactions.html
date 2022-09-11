@@ -10,103 +10,119 @@
   </head>
   <body>
     <div class="container py-4">
-        <div class="container py-4">
-          <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="index.html">kinda</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="revenues.html">Revenues</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="expenses.html">Expenses</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="transactions.html">Transactions</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled">More to come here</a>
-                  </li>
-                </ul>
+      <div class="container py-4">
+        <nav class="navbar navbar-expand-lg bg-light">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">kinda</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="revenues.html">Revenues</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="expenses.html">Expenses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="transactions.html">Transactions</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled">More to come here</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+          <div class="p5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+              <h1 class="display-5 fw-bold">Transaction Entry</h1>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="debits" class="form-label">Description</label>
+                  <input id="description" class="form-control" placeholder="Description">
+                </div>
+                <div class="col-12">
+                  <label for="debits" class="form-label">Debits</label>
+                  <input id="debits" class="form-control" placeholder="Debits" value='[{"account": "__", "amount": __}]'>
+                </div>
+                <div class="col-12">
+                  <label for="credits" class="form-label">Credits</label>
+                  <input id="credits" class="form-control" placeholder="Credits" value='[{"account": "__", "amount": __}]'>
+                </div>
+
               </div>
+              <hr class="my-4">
+              <button id="submit" class="btn btn-primary">Submit</button>
             </div>
-          </nav>
-            <div class="p5 mb-4 bg-light rounded-3">
-                <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">Transaction Entry</h1>
-                    <input id="description" class="form-control" placeholder="Description">
-                    <br>
-                    <input id="debits" class="form-control" placeholder="Debits">
-                    <br>
-                    <input id="credits" class="form-control" placeholder="Credits">
-                    <br>
-                    <button id="submit" class="btn btn-primary">Submit</button>
-                </div>
+          </div>
+          <div class="p5 mb-4 rounded-3">
+            <div id="transactions" class="container-fluid py-5">
+
             </div>
-            <div class="p5 mb-4 rounded-3">
-                <div id="transactions" class="container-fluid py-5">
-    
-                </div>
-            </div>
-    
-        </div>
-        </div>
+          </div>
+  
+      </div>
+    </div>
 
     <script>
-        var socket = io()
+      var socket = io()
 
-        $(() => {
-            $('#submit').click(() => {
-              var transaction = {
-                "description": $("#description").val(),
-                "debits": JSON.parse($("#debits").val()),
-                "credits": JSON.parse($("#credits").val()),
-              }
-              console.log(transaction)
-              var total_debits = 0
-              var total_credits = 0
-              for (let i = 0; i < transaction.debits.length; i++) {
-                total_debits += transaction.debits[i].amount
-              }
-              for (let i = 0; i < transaction.credits.length; i++) {
-                total_credits += transaction.credits[i].amount
-              }
-              console.log('total_debits:', total_debits)
-              console.log('total_debits:', total_credits)
-              if (total_credits != total_debits) {
-                alert('Debits must equal credits.')
-              }
-              else{
-                postTransaction(transaction)
-              }
+      $(() => {
+          $('#submit').click(() => {
+            var transaction = {
+              "description": $("#description").val(),
+              "debits": JSON.parse($("#debits").val()),
+              "credits": JSON.parse($("#credits").val()),
+            }
+            console.log(transaction)
+            var total_debits = 0
+            var total_credits = 0
+            for (let i = 0; i < transaction.debits.length; i++) {
+              total_debits += transaction.debits[i].amount
+            }
+            for (let i = 0; i < transaction.credits.length; i++) {
+              total_credits += transaction.credits[i].amount
+            }
+            console.log('total_debits:', total_debits)
+            console.log('total_debits:', total_credits)
+            if (total_credits != total_debits) {
+              alert('Debits must equal credits.')
+            }
+            else{
+              postTransaction(transaction)
+            }
 
-            })
-            getTransactions()
+          })
+          getTransactions()
+      })
+
+      socket.on('transactions', addTransactions)
+
+      function addTransactions(transaction) {
+        for (i = 0; i < transaction.credits.length; i++) {
+          $('#transactions').prepend(`<p>________${transaction.credits[i].account}: ${transaction.credits[i].amount}</p>`)  
+        }
+        for (i = 0; i < transaction.debits.length; i++) {
+          $('#transactions').prepend(`<p>${transaction.debits[i].account}: ${transaction.debits[i].amount}</p>`)  
+        }
+        $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
+        console.log(transaction)
+      }
+
+      function getTransactions() {
+        $.get('http://localhost:3000/transactions', (data) => {
+            data.forEach(addTransactions);
         })
+      }
 
-        socket.on('transactions', addTransactions)
-
-        function addTransactions(transaction) {
-            $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
-            $('#transactions').prepend(`<p>${transaction.debits}</p>`)
-        }
-
-        function getTransactions() {
-            $.get('http://localhost:3000/transactions', (data) => {
-                data.forEach(addTransactions);
-            })
-        }
-
-        function postTransaction(transaction) {
-            $.post('http://localhost:3000/transactions', transaction)
-        }
+      function postTransaction(transaction) {
+        $.post('http://localhost:3000/transactions', transaction)
+      }
     </script>
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
