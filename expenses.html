@@ -58,34 +58,41 @@
         </div>
 
     <script>
-        var socket = io()
+      var socket = io()
 
-        $(() => {
-            $('#submit').click(() => {
-                var expense = {description: $("#description").val(), amount: $("#amount").val()}
-                postExpense(expense)
-            })
-            getExpenses()
-        })
+      $(() => {
+          $('#submit').click(() => {
+              var transaction = {
+                description: $("#description").val(),
+                amount: $("#amount").val(),
+                debitAccount: "Expenses",
+                creditAccount: $("#creditAccount").val(),
+                reference: $("#reference").val()
+              }
+              postTransaction(transaction)
+          })
+          getTransactions()
+      })
 
-        socket.on('expense', addExpense)
+      socket.on('transactions', addTransactions)
 
-        function addExpense(expense) {
-            $('#expenses').append(`<h4>${expense.description}</h4>`)
-            $('#expenses').append(`<p>$${expense.amount}</p>`)
-        }
+      function addTransactions(transaction) {
+        $('#transactions').prepend(`<p>$${transaction.amount}</p>`)  
+        $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
+          
+      }
 
-        function getExpenses() {
-            $.get('http://localhost:3000/expenses', (data) => {
-                data.forEach(addExpense);
-            })
-        }
+      function getTransactions() {
+          $.get('http://localhost:3000/transactions', (data) => {
+              data.forEach(addTransactions);
+          })
+      }
 
-        function postExpense(expense) {
-            $.post('http://localhost:3000/expenses', expense)
-        }
+      function postTransaction(transaction) {
+          $.post('http://localhost:3000/transactions', transaction)
+      }
     </script>
-   
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
   </body>
 </html>

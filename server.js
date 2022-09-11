@@ -4,19 +4,18 @@ var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var mongoose = require('mongoose')
+const { parse } = require('path')
 
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: true}))
 
 var dbUrl = 'mongodb+srv://ballinger5421:hBMNvSlhvUdURw50@kinda.kdaxo7g.mongodb.net/test'
 
 var Transaction = mongoose.model('Transaction', {
-    debitAccount: String,
-    creditAccount: String,
-    amount: Number,
+    debits: Array,
+    credits: Array,
     description: String,
-    reference: String
 })
 
 app.get('/transactions', (req, res) => {
@@ -26,6 +25,7 @@ app.get('/transactions', (req, res) => {
 })
 
 app.post('/transactions', (req, res) => {
+    console.log(req.body)
     var transaction = new Transaction(req.body)
     transaction.save((err) => {
         if(err) {
@@ -47,4 +47,3 @@ mongoose.connect(dbUrl, (err) => {
 var server = http.listen(3000, () => {
     console.log('Server is listening on port', server.address().port)
 })
-

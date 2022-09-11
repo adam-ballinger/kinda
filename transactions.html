@@ -41,15 +41,11 @@
             <div class="p5 mb-4 bg-light rounded-3">
                 <div class="container-fluid py-5">
                     <h1 class="display-5 fw-bold">Transaction Entry</h1>
-                    <input id="debitAccount" class="form-control" placeholder="Debit">
-                    <br>
-                    <input id="creditAccount" class="form-control" placeholder="Credit">
-                    <br>
                     <input id="description" class="form-control" placeholder="Description">
                     <br>
-                    <input id="amount" class="form-control" placeholder="Amount">
+                    <input id="debits" class="form-control" placeholder="Debits">
                     <br>
-                    <input id="reference" class="form-control" placeholder="Reference">
+                    <input id="credits" class="form-control" placeholder="Credits">
                     <br>
                     <button id="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -68,14 +64,29 @@
 
         $(() => {
             $('#submit').click(() => {
-                var transaction = {
-                  description: $("#description").val(),
-                  amount: $("#amount").val(),
-                  debitAccount: $("#debitAccount").val(),
-                  creditAccount: $("#creditAccount").val(),
-                  reference: $("#reference").val()
-                }
+              var transaction = {
+                "description": $("#description").val(),
+                "debits": JSON.parse($("#debits").val()),
+                "credits": JSON.parse($("#credits").val()),
+              }
+              console.log(transaction)
+              var total_debits = 0
+              var total_credits = 0
+              for (let i = 0; i < transaction.debits.length; i++) {
+                total_debits += transaction.debits[i].amount
+              }
+              for (let i = 0; i < transaction.credits.length; i++) {
+                total_credits += transaction.credits[i].amount
+              }
+              console.log('total_debits:', total_debits)
+              console.log('total_debits:', total_credits)
+              if (total_credits != total_debits) {
+                alert('Debits must equal credits.')
+              }
+              else{
                 postTransaction(transaction)
+              }
+
             })
             getTransactions()
         })
@@ -83,9 +94,8 @@
         socket.on('transactions', addTransactions)
 
         function addTransactions(transaction) {
-          $('#transactions').prepend(`<p>$${transaction.amount}</p>`)  
-          $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
-            
+            $('#transactions').prepend(`<h4>${transaction.description}</h4>`)
+            $('#transactions').prepend(`<p>${transaction.debits}</p>`)
         }
 
         function getTransactions() {
