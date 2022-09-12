@@ -23,7 +23,7 @@
                   <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="revenues.html">Revenues</a>
+                  <a class="nav-link" href="payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="expenses.html">Expenses</a>
@@ -41,6 +41,8 @@
           <div class="p5 mb-4 bg-light rounded-3">
             <div class="container-fluid py-5">
               <h1 class="display-5 fw-bold">Transaction Entry</h1>
+
+              <br>
               <div class="row g-3">
                 <div class="col-12">
                   <label for="debits" class="form-label">Description</label>
@@ -54,9 +56,8 @@
                   <label for="credits" class="form-label">Credits</label>
                   <input id="credits" class="form-control" placeholder="Credits" value='[{"account": "__", "amount": __}]'>
                 </div>
-
               </div>
-              <hr class="my-4">
+              <br>
               <button id="submit" class="btn btn-primary">Submit</button>
             </div>
           </div>
@@ -65,7 +66,6 @@
 
             </div>
           </div>
-  
       </div>
     </div>
 
@@ -104,6 +104,7 @@
       socket.on('transactions', addTransactions)
 
       function addTransactions(transaction) {
+        $('#transactions').prepend('<hr class="my-4">')
         for (i = 0; i < transaction.credits.length; i++) {
           $('#transactions').prepend(`<p>________${transaction.credits[i].account}: ${transaction.credits[i].amount}</p>`)  
         }
