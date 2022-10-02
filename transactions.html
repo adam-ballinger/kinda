@@ -116,13 +116,13 @@
       }
 
       function getTransactions() {
-        $.get('http://localhost:3000/transactions', (data) => {
+        $.get('/transactions', (data) => {
             data.forEach(addTransactions);
         })
       }
 
       function postTransaction(transaction) {
-        $.post('http://localhost:3000/transactions', transaction)
+        $.post('/transactions', transaction)
       }
     </script>
    
