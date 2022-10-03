@@ -21,7 +21,7 @@ var dbUrl = 'mongodb+srv://ballinger5421:hBMNvSlhvUdURw50@kinda.kdaxo7g.mongodb.
 var Transaction = mongoose.model('Transaction', {
     debits: Array,
     credits: Array,
-    description: String,
+    description: String
 })
 
 app.get('/transactions', (req, res) => {
@@ -38,6 +38,42 @@ app.post('/transactions', (req, res) => {
             sendStatus(500)
         }
         io.emit('transactions', req.body)
+        res.sendStatus(200)
+    })
+})
+
+var Student = mongoose.model('Student', {
+    name: String
+})
+
+app.get('/students', (req, res) => {
+    Student.find({}, (err, students) => {
+        res.send(students)
+    })
+})
+
+var Checkin = mongoose.model('Check-in', {
+    date: Date,
+    student: Object,
+    studentName: String,
+    timeIn: Object,
+    timeOut: Object
+})
+
+app.get('/check-ins', (req, res) => {
+    Checkin.find({}, (err, checkins) => {
+        res.send(checkins)
+    })
+})
+
+app.post('/check-ins', (req, res) => {
+    console.log(req.body)
+    var checkin = new Checkin(req.body)
+    checkin.save((err) => {
+        if(err) {
+            sendStatus(500)
+        }
+        io.emit('check-ins', req.body)
         res.sendStatus(200)
     })
 })

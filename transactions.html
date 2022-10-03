@@ -73,32 +73,32 @@
       var socket = io()
 
       $(() => {
-          $('#submit').click(() => {
-            var transaction = {
-              "description": $("#description").val(),
-              "debits": JSON.parse($("#debits").val()),
-              "credits": JSON.parse($("#credits").val()),
-            }
-            console.log(transaction)
-            var total_debits = 0
-            var total_credits = 0
-            for (let i = 0; i < transaction.debits.length; i++) {
-              total_debits += transaction.debits[i].amount
-            }
-            for (let i = 0; i < transaction.credits.length; i++) {
-              total_credits += transaction.credits[i].amount
-            }
-            console.log('total_debits:', total_debits)
-            console.log('total_debits:', total_credits)
-            if (total_credits != total_debits) {
-              alert('Debits must equal credits.')
-            }
-            else{
-              postTransaction(transaction)
-            }
+        $('#submit').click(() => {
+          var transaction = {
+            "description": $("#description").val(),
+            "debits": JSON.parse($("#debits").val()),
+            "credits": JSON.parse($("#credits").val()),
+          }
+          console.log(transaction)
+          var total_debits = 0
+          var total_credits = 0
+          for (let i = 0; i < transaction.debits.length; i++) {
+            total_debits += transaction.debits[i].amount
+          }
+          for (let i = 0; i < transaction.credits.length; i++) {
+            total_credits += transaction.credits[i].amount
+          }
+          console.log('total_debits:', total_debits)
+          console.log('total_debits:', total_credits)
+          if (total_credits != total_debits) {
+            alert('Debits must equal credits.')
+          }
+          else{
+            postTransaction(transaction)
+          }
 
-          })
-          getTransactions()
+        })
+        getTransactions()
       })
 
       socket.on('transactions', addTransactions)
