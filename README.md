@@ -8,19 +8,15 @@ Adam Ballinger
 
 1. Transaction
 
-    _id: ObjectID
-
+    <_id: ObjectID
     debits: []
-
     credits: []
-
-    description: ""
+    description: "">
 
 2. Student
 
-    _id: ObjectID
-
-    name: ""
+    <_id: ObjectID
+    name: "">
 
 3. CheckIn
 
