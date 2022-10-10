@@ -95,13 +95,12 @@
           }
           else{
             postTransaction(transaction)
+            addTransactions(transaction)
           }
-
+          
         })
         getTransactions()
       })
-
-      socket.on('transactions', addTransactions)
 
       function addTransactions(transaction) {
         $('#transactions').prepend('<hr class="my-4">')

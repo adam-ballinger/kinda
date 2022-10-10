@@ -50,20 +50,26 @@ Adam Ballinger
 
 ## Controllers
 
-GET: /check-ins
-GET: /check-ins/:id
-POST: /check-ins
-PATCH: /check-ins/:id
-DELETE: /check-ins/:id
+- GET: /check-ins
 
-GET: /students
-GET: /students/:id
-POST: /students
-PATCH: /students/:id
-DELETE: /students/:id
+- POST: /check-ins
 
-GET: /transactions
-GET: /transactions/:id
-POST: /transactions
-PATCH: /transactions/:id
-DELETE: /transactions/:id
+- PATCH: /check-ins/:id
+
+- DELETE: /check-ins/:id
+
+- GET: /students
+
+- POST: /students
+
+- PATCH: /students/:id
+
+- DELETE: /students/:id
+
+- GET: /transactions
+
+- POST: /transactions
+
+- PATCH: /transactions/:id
+
+- DELETE: /transactions/:id

@@ -10,76 +10,79 @@
   </head>
   <body>
     <div class="container py-4">
-        <div class="container py-4">
-          <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="index.html">kinda</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="index.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="checkin.html">Check-in</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="payments.html">Payments</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="expenses.html">Expenses</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled">More to come here</a>
-                  </li>
-                </ul>
-              </div>
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">kinda</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="check-in.html">Check-in</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="log.html">Log</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="students.html">Students</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="payments.html">Payments</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="expenses.html">Expenses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">More to come here</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="p5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Check-in</h1>
+          <div class="p-5 bg-light rounded-3">
+            <div class="container-fulid py-5">
+              <p class="display-6">In progress. Feel free to try everything out.</p>
             </div>
-          </nav>
-            <div class="p5 mb-4 bg-light rounded-3">
-                <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">Check-in</h1>
-                    <div class="p-5 bg-light rounded-3">
-                      <div class="container-fulid py-5">
-                        <p class="display-6">In progress. Feel free to try everything out.</p>
-                      </div>
-                    </div>
-                    <div class="row g-3">
-                      <div class="col-12">
-                        <label for="student" class="form-label">Student</label>
-                        <select id="student" class="form-select">
-                          <option value="null" selected>Select Student</option>
-                        </select>
-                      </div>
-                    </div>
-                    <br>
-                    <button id="check-in" class="btn btn-primary">Check-in</button>
-                </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="student" class="form-label">Student</label>
+              <select id="student" class="form-select">
+                <option value="null" selected>Select Student</option>
+              </select>
             </div>
-            <div class="p5 mb-4 rounded-3">
-                <div id="check-ins" class="container-fluid py-5">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">Student Name</th>
-                        <th scope="col">Time In</th>
-                        <th scope="col">Time Out</th>
-                      </tr>
-                    </thead>
-                    <tbody id="check-in-table">
+          </div>
+          <br>
+          <button id="check-in" class="btn btn-primary">Check-in</button>
+        </div>
+      </div>
+      <div class="p5 mb-4 rounded-3">
+        <div id="check-ins" class="container-fluid py-5">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Student Name</th>
+                <th scope="col">Time In</th>
+                <th scope="col">Time Out</th>
+              </tr>
+            </thead>
+            <tbody id="check-in-table">
 
-                    </tbody>
-                  </table>
-                </div>
-            </div>
-    
+            </tbody>
+          </table>
         </div>
-        </div>
+      </div>
+
+    </div>
 
     <script>
-      var socket = io()
 
       $(() => {
         $('#check-in').click(() => {
@@ -92,21 +95,15 @@
             "studentName": $("#student option:selected").text(),
             "timeIn": new Date()
             }
-            postCheckIn(checkin)
+            if (confirm(`Check-in ${checkin.studentName} ${checkin.timeIn}?`)){
+              postCheckIn(checkin)
+            }
           }
         })
-
-        const links = document.querySelectorAll('.check-out-link')
-
-        links.forEach(el => el.addEventListener('click', event => {
-          console.log(event.target.text())
-        }))
 
         getCheckIns()
         getStudents()
       })
-
-      socket.on('check-ins', addCheckIn)
 
       function getStudents() {
         $.get('/students', (data) => {
@@ -130,9 +127,11 @@
 
       function addCheckIn(checkin) {
         if (checkin.timeOut == undefined) {
-          $('#check-in-table').append(`<tr><td>${checkin.studentName}</td><td>${checkin.timeIn}</td><td><a id="${checkin._id}" href="#" class="check-out-link">${checkin.timeOut}</a></td></tr>`)
+          $('#check-in-table').append(`<tr><td>${checkin.studentName}</td><td>${checkin.timeIn}</td><td><a id="${checkin._id}" href="#check-ins" class="check-out-link">${checkin.timeOut}</a></td></tr>`)
         }
       }
+
+      function checkOut()
 
     </script>
    
