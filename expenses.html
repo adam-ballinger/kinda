@@ -10,7 +10,6 @@
   </head>
   <body>
     <div class="container py-4">
-      <div class="container py-4">
         <nav class="navbar navbar-expand-lg bg-light">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.html">kinda</a>
@@ -23,7 +22,13 @@
                   <a class="nav-link" aria-current="page" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="check-in.html">Check-in</a>
+                  <a class="nav-link active" href="check-in.html">Check-in</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="log.html">Log</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="students.html">Students</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="payments.html">Payments</a>
@@ -38,25 +43,26 @@
             </div>
           </div>
         </nav>
-        <div class="p5 mb-4 bg-light rounded-3">
-          <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Expense Entry</h1>
-            <br>
-            <div class="row g-3">
-              <div class="col-12">
-                <label for="description" class="form-label">Description</label>
-                <input id="description" class="form-control" placeholder="Description">
-              </div>
-              <div class="col-12">
-                <label for="amount" class="form-label">Amount</label>
-                <input id="amount" class="form-control" placeholder="Amount">
-              </div>
-              <div class="col-12">
-                <label for="debit_account" class="form-label">Debit Account</label>
-                <select id="debit_account" class="form-select">
-                  <option selected value="Bank Account">Bank Account</option>
-                  <option value="Petty Cash">Petty Cash</option>
-                </select>
+          <div class="p5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+              <h1 class="display-5 fw-bold">Expense Entry</h1>
+              <br>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="description" class="form-label">Description</label>
+                  <input id="description" class="form-control" placeholder="Description">
+                </div>
+                <div class="col-12">
+                  <label for="amount" class="form-label">Amount</label>
+                  <input id="amount" class="form-control" placeholder="Amount">
+                </div>
+                <div class="col-12">
+                  <label for="debit_account" class="form-label">Debit Account</label>
+                  <select id="debit_account" class="form-select">
+                    <option selected value="Bank Account">Bank Account</option>
+                    <option value="Petty Cash">Petty Cash</option>
+                  </select>
+                </div>
               </div>
             </div>
             <br>
@@ -68,7 +74,6 @@
 
           </div>
         </div>
-      </div>
     </div>
     
     <script>

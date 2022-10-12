@@ -16,6 +16,10 @@ const checkInSchema = new mongoose.Schema({
     timeOut: {
         type: Object,
         required: false
+    },
+    status: {
+        type: String,
+        required: true
     }
 })
 

@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="p5 mb-4 rounded-3">
-        <div id="check-ins" class="container-fluid py-5">
+        <div id="check-ins" class="container-fluid py-5 table-responsive">
           <table class="table table-hover">
             <thead>
               <tr>
@@ -85,6 +85,7 @@
     <script>
 
       $(() => {
+
         $('#check-in').click(() => {
           if ($("#student").val() == "null") {
             alert('Please select student.')
@@ -93,11 +94,13 @@
             var checkin = {
             "student": $("#student").val(),
             "studentName": $("#student option:selected").text(),
-            "timeIn": new Date()
+            "timeIn": new Date(),
+            "status": "Open"
             }
             if (confirm(`Check-in ${checkin.studentName} ${checkin.timeIn}?`)){
               postCheckIn(checkin)
             }
+            addCheckIn(checkin)
           }
         })
 
@@ -120,18 +123,37 @@
       }
 
       function getCheckIns() {
-        $.get('/check-ins', (data) => {
-          data.forEach(addCheckIn)
+        $.get('/check-ins/open', (data) => {
+          try {
+            data.forEach(addCheckIn)
+          } catch {
+            console.log('No open check-ins.')
+          }
+          
         })
       }
 
       function addCheckIn(checkin) {
-        if (checkin.timeOut == undefined) {
-          $('#check-in-table').append(`<tr><td>${checkin.studentName}</td><td>${checkin.timeIn}</td><td><a id="${checkin._id}" href="#check-ins" class="check-out-link">${checkin.timeOut}</a></td></tr>`)
-        }
+        $('#check-in-table').append(`<tr id='${checkin._id}'><td>${checkin.studentName}</td><td>${checkin.timeIn}</td><td><button onclick="checkOut('${checkin._id}', '${checkin.studentName}')" class="btn"><img src="/icons/clock-fill.svg" alt="Clock Out ${checkin.studentName}"></button></td></tr>`)
       }
 
-      function checkOut()
+      function checkOut(id, studentName) {
+        time = new Date()
+        if (confirm(`Check-out ${studentName} ${time}?`)){
+          data = JSON.stringify({
+            timeOut: time,
+            status: "Closed"
+          })
+          console.log({id: id, data: data})
+          $.ajax({
+            type: 'PATCH',
+            url: `/check-ins/${id}`,
+            data: data,
+            processData: false,
+            contentType: 'application/json',
+          })
+        }
+      }
 
     </script>
    
