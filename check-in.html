@@ -98,9 +98,11 @@
             "status": "Open"
             }
             if (confirm(`Check-in ${checkin.studentName} ${checkin.timeIn}?`)){
-              postCheckIn(checkin)
+              $.post('/check-ins', checkin, (data) => {
+                checkin._id = data._id
+                addCheckIn(checkin)
+              })
             }
-            addCheckIn(checkin)
           }
         })
 
@@ -116,10 +118,6 @@
 
       function addStudent(student) {
         $('#student').append(`<option value=${student._id}>${student.name}</option>`)
-      }
-
-      function postCheckIn(checkin) {
-        $.post('/check-ins', checkin)
       }
 
       function getCheckIns() {
@@ -151,6 +149,9 @@
             data: data,
             processData: false,
             contentType: 'application/json',
+            success: () => {
+              $(`#${id}`).remove()
+            }
           })
         }
       }
